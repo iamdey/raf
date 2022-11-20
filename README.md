@@ -35,9 +35,9 @@ _add `<--- your name` if you want to contribute_
 - [ ] Choose a frontend technology (webcomponent|preact|…)
 - [ ] UI mockups
 - [x] basic player: start/stop controls
-- [ ] select speed **<--- dey**
+- [x] select speed
 - [ ] design song data for the display
-- [ ] tablature display
+- [ ] tablature display **<--- dey**
 - [ ] tabs database
 - [ ] check legals for the tabs database (can it be redistributed freely)
 - …

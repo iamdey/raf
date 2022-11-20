@@ -26,12 +26,16 @@ const setup = async ({
   scoreEl,
   startEl,
   stopEl,
+  speedEl,
+  tempoEl,
 }: {
   scoreEl: null | HTMLElement;
   stopEl: null | HTMLElement;
   startEl: null | HTMLElement;
+  speedEl: null | HTMLInputElement;
+  tempoEl: null | HTMLElement;
 }) => {
-  if (!scoreEl || !stopEl || !startEl) {
+  if (!scoreEl || !stopEl || !startEl || !speedEl || !tempoEl) {
     return;
   }
   try {
@@ -40,6 +44,7 @@ const setup = async ({
     });
 
     scoreEl.innerHTML = `${score.artist} - ${score.title}`;
+    tempoEl.innerHTML = score.tempo.toString();
 
     const soundFont = await new Promise<Uint8Array>((resolve) => {
       const xhr = new XMLHttpRequest();
@@ -53,7 +58,7 @@ const setup = async ({
     });
 
     const midiFile = getMidi(score);
-    setupPlayer(midiFile, soundFont, { startEl, stopEl });
+    setupPlayer(midiFile, soundFont, { startEl, stopEl, speedEl });
   } catch (e) {}
 };
 

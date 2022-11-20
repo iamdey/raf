@@ -10,11 +10,14 @@ import { setup } from './setup';
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <h1>RAF</h1>
 <p id="score">Loading …</p>
-<div><button id="stop">Stop</button> <button id="start">Start</button></div>
+<div><button id="stop">Stop</button> <button id="start">Start</button> <label for="speed">Speed</speed> <input id="speed" type="number" value="100" max="120" min="10" /> %</div>
+<div>Tempo: <span id="tempo" /> ♩</div>
 `;
 
 setup({
   scoreEl: document.querySelector('#score'),
   stopEl: document.querySelector('#stop'),
   startEl: document.querySelector('#start'),
+  speedEl: document.querySelector('#speed'),
+  tempoEl: document.querySelector('#tempo'),
 });

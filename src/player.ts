@@ -9,7 +9,15 @@ import { synth, midi } from '@coderline/alphatab';
 export const setupPlayer = (
   midiFile: midi.MidiFile,
   soundFont: Uint8Array,
-  { startEl, stopEl }: { startEl: HTMLElement; stopEl: HTMLElement }
+  {
+    startEl,
+    stopEl,
+    speedEl,
+  }: {
+    startEl: HTMLElement;
+    stopEl: HTMLElement;
+    speedEl: HTMLInputElement;
+  }
 ) => {
   const player = new synth.AlphaSynth(
     new synth.AlphaSynthScriptProcessorOutput(),
@@ -23,4 +31,16 @@ export const setupPlayer = (
   stopEl.addEventListener('click', () => {
     player.pause();
   });
+
+  speedEl.addEventListener('change', (ev) => {
+    // @ts-ignore
+    if (!ev.currentTarget?.value) {
+      return;
+    }
+
+    // @ts-ignore
+    player.playbackSpeed = Number(ev.currentTarget?.value) / 100;
+  });
+
+  speedEl;
 };
