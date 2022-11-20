@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@coderline/alphatab@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@coderline/alphatab/-/alphatab-1.2.3.tgz#1ddc38ca5157cdd8166e4b954597d598de9b732d"
+  integrity sha512-qAJqEO9DDUhEqtBM5b8FeIg8EoY7HElNN2Tm23oGjzchGU2bD4Jyk/KBgHqvvXm8ZTuJE9G0Nga68qxPMAnwhw==
+
 "@esbuild/android-arm@0.15.14":
   version "0.15.14"
   resolved "https://registry.yarnpkg.com/@esbuild/android-arm/-/android-arm-0.15.14.tgz#5d0027f920eeeac313c01fd6ecb8af50c306a466"
