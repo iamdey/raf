@@ -35,18 +35,10 @@ const setup = async ({
     return;
   }
   try {
-    const score = await new Promise<model.Score>((resolve) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', gpFile, true);
-      xhr.responseType = 'arraybuffer';
-      xhr.onload = () => {
-        const data = new Uint8Array(xhr.response);
-        const settings = new Settings();
-        const loaded = importer.ScoreLoader.loadScoreFromBytes(data, settings);
-        resolve(loaded);
-      };
-      xhr.send();
+    const score = await new Promise<model.Score>((resolve, reject) => {
+      importer.ScoreLoader.loadScoreAsync(gpFile, resolve, reject);
     });
+
     scoreEl.innerHTML = `${score.artist} - ${score.title}`;
 
     const soundFont = await new Promise<Uint8Array>((resolve) => {
