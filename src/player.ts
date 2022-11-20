@@ -4,5 +4,23 @@
  * To Public License, Version 2, as published by Sam Hocevar. See
  * http://www.wtfpl.net/ for more details. */
 
-import { model } from '@coderline/alphatab';
-export const player = (score: model.Score, { startEl, stopEl }) => {};
+import { synth, midi } from '@coderline/alphatab';
+
+export const setupPlayer = (
+  midiFile: midi.MidiFile,
+  soundFont: Uint8Array,
+  { startEl, stopEl }: { startEl: HTMLElement; stopEl: HTMLElement }
+) => {
+  const player = new synth.AlphaSynth(
+    new synth.AlphaSynthScriptProcessorOutput(),
+    10000
+  );
+  player.loadSoundFont(soundFont, false);
+  player.loadMidiFile(midiFile);
+  startEl.addEventListener('click', () => {
+    player.play();
+  });
+  stopEl.addEventListener('click', () => {
+    player.pause();
+  });
+};

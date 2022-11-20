@@ -34,7 +34,8 @@ _add `<--- your name` if you want to contribute_
 - [ ] Choose a Design system
 - [ ] Choose a frontend technology (webcomponent|preact|…)
 - [ ] UI mockups
-- [ ] basic player: start/stop controls <--- dey
+- [x] basic player: start/stop controls
+- [ ] select speed **<--- dey**
 - [ ] design song data for the display
 - [ ] tablature display
 - [ ] tabs database
@@ -69,6 +70,14 @@ Rename it `test.gp3` and move it into the `public` folder.
 
 (you can you other format instead of gp3 but you need to change the name in the
 `score.ts` file)
+
+#### Copy soundfont (temporary)
+
+Copy soundfont to the public directory:
+
+```bash
+cp node_modules/@coderline/alphatab/dist/soundfont/sonivox.sf2 public/
+```
 
 #### Start dev server
 
