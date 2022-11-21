@@ -6,6 +6,7 @@
 
 import { Settings, importer, model, midi } from '@coderline/alphatab';
 import { setupPlayer } from './player';
+import { setupRenderer } from './renderer';
 
 const gpFile = '/test.gp3';
 
@@ -28,14 +29,16 @@ const setup = async ({
   stopEl,
   speedEl,
   tempoEl,
+  contentEl,
 }: {
   scoreEl: null | HTMLElement;
   stopEl: null | HTMLElement;
   startEl: null | HTMLElement;
   speedEl: null | HTMLInputElement;
   tempoEl: null | HTMLElement;
+  contentEl: null | HTMLElement;
 }) => {
-  if (!scoreEl || !stopEl || !startEl || !speedEl || !tempoEl) {
+  if (!scoreEl || !stopEl || !startEl || !speedEl || !tempoEl || !contentEl) {
     return;
   }
   try {
@@ -59,6 +62,7 @@ const setup = async ({
 
     const midiFile = getMidi(score);
     setupPlayer(midiFile, soundFont, { startEl, stopEl, speedEl });
+    setupRenderer({ contentEl });
   } catch (e) {}
 };
 

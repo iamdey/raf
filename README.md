@@ -11,7 +11,7 @@ be working.
 
 ## Concept
 
-You may know Guitar pro, tux guitar, Rocksmith 2017, Yousician, Rocksmith+?.
+You may know Guitar pro, tux guitar, Rocksmith 2014, Yousician, Rocksmith+?.
 Well those are cool and probably match your expectations better than RAF. I just
 want to have something simple (well I try), play a song, display the tablature
 progressively and choose the speed of the song.
@@ -89,3 +89,5 @@ yarn dev
 
 - Load a `.gp` file
 - retrieve artist and song
+- start/pause and speed control
+- guitar display

@@ -13,6 +13,7 @@
     "vite": "^3.2.3"
   },
   "dependencies": {
-    "@coderline/alphatab": "^1.2.3"
+    "@coderline/alphatab": "^1.2.3",
+    "pixi.js": "^7.0.4"
   }
 }
