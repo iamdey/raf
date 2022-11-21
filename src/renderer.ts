@@ -4,27 +4,83 @@
  * To Public License, Version 2, as published by Sam Hocevar. See
  * http://www.wtfpl.net/ for more details. */
 
-import { Application, Graphics } from 'pixi.js';
+import { Application, Graphics, ICanvas } from 'pixi.js';
+
+const SCREEN_HEIGHT = 300;
+const SCREEN_WIDTH = 600;
+const GUITAR_HEIGHT = 200;
+const MARGIN_Y = (SCREEN_HEIGHT - GUITAR_HEIGHT) / 2;
+const STRING_HEIGHT = 3;
+const NOTE_HEIGHT = 10;
+
+const posYGstrings = {
+  ETreble: MARGIN_Y + GUITAR_HEIGHT / 6,
+  B: MARGIN_Y + (GUITAR_HEIGHT / 6) * 2,
+  G: MARGIN_Y + (GUITAR_HEIGHT / 6) * 3,
+  D: MARGIN_Y + (GUITAR_HEIGHT / 6) * 4,
+  A: MARGIN_Y + (GUITAR_HEIGHT / 6) * 5,
+  EBass: MARGIN_Y + GUITAR_HEIGHT,
+};
+
+type IGString = keyof typeof posYGstrings;
+
+class Note {
+  // XXX: should compute itself string & fret if no indications
+  constructor({ gString, x }: { gString: IGString; x: number }) {
+    this.background = new Graphics();
+    this.background.beginFill(0x33c7de);
+    this.background.drawRoundedRect(
+      0,
+      0,
+      NOTE_HEIGHT * 2,
+      NOTE_HEIGHT,
+      NOTE_HEIGHT
+    );
+    this.background.endFill();
+    // tmp
+    this.background.x = x;
+
+    this.gString = gString;
+  }
+
+  background: Graphics;
+  _gString: IGString = 'EBass';
+
+  set gString(gString: IGString) {
+    this._gString = gString;
+    this.background.y = posYGstrings[gString] - NOTE_HEIGHT / 2;
+  }
+
+  get gString() {
+    // XXX: compute based on y pos.
+    return this._gString;
+  }
+
+  render(app: Application<ICanvas>) {
+    app.stage.addChild(this.background);
+  }
+}
 
 export const setupRenderer = ({ contentEl }: { contentEl: HTMLElement }) => {
   const app = new Application({
-    width: 600,
-    height: 300,
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
     backgroundColor: '#002B36',
   });
 
   const gStringTemplate = new Graphics();
   gStringTemplate.beginFill(0x8a919b);
-  gStringTemplate.drawRect(0, 0, 600, 5);
+  gStringTemplate.drawRect(0, 0, SCREEN_WIDTH, STRING_HEIGHT);
   gStringTemplate.endFill();
 
   const gStrings = [];
-  for (let i = 0; i < 6; i++) {
+  Object.entries(posYGstrings).forEach(([, posY]) => {
     let gString = new Graphics(gStringTemplate.geometry);
-    gString.y = (200 / 6) * (i + 1) + 30;
+    gString.y = posY - STRING_HEIGHT / 2;
+
     gStrings.push(gString);
     app.stage.addChild(gString);
-  }
+  });
 
   const center = new Graphics();
   center.beginFill(0xff0000);
@@ -32,6 +88,15 @@ export const setupRenderer = ({ contentEl }: { contentEl: HTMLElement }) => {
   center.endFill();
 
   app.stage.addChild(center);
+
+  // --- NOTES
+  const note1 = new Note({ gString: 'A', x: SCREEN_WIDTH - 50 });
+  note1.render(app);
+  const note2 = new Note({ gString: 'A', x: SCREEN_WIDTH - 100 });
+  note2.render(app);
+  const note3 = new Note({ gString: 'EBass', x: SCREEN_WIDTH - 150 });
+  note3.render(app);
+  // ---
 
   // @ts-ignore
   contentEl.appendChild(app.view);

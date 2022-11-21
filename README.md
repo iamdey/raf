@@ -34,12 +34,15 @@ _add `<--- your name` if you want to contribute_
 - [ ] Choose a Design system
 - [ ] Choose a frontend technology (webcomponent|preact|…)
 - [ ] UI mockups
+- [ ] load user's `.gp` file (easy)
 - [x] basic player: start/stop controls
 - [x] select speed
-- [ ] design song data for the display
-- [ ] tablature display **<--- dey**
+- [ ] design song data for the display **<--- dey**
+- [x] basic tablature display
 - [ ] tabs database
 - [ ] check legals for the tabs database (can it be redistributed freely)
+- [ ] simplify app installation: http proxy for sonivox.sf2 file (vite config,
+      easy?)
 - …
 
 ### Dev
@@ -90,4 +93,4 @@ yarn dev
 - Load a `.gp` file
 - retrieve artist and song
 - start/pause and speed control
-- guitar display
+- guitar display (+ fake notes)
