@@ -5,10 +5,12 @@
  * http://www.wtfpl.net/ for more details. */
 
 import { synth, midi } from '@coderline/alphatab';
+import { RafDisplay } from './renderer';
 
 export const setupPlayer = (
   midiFile: midi.MidiFile,
   soundFont: Uint8Array,
+  display: RafDisplay,
   {
     startEl,
     stopEl,
@@ -25,11 +27,14 @@ export const setupPlayer = (
   );
   player.loadSoundFont(soundFont, false);
   player.loadMidiFile(midiFile);
+
   startEl.addEventListener('click', () => {
     player.play();
+    display.play();
   });
   stopEl.addEventListener('click', () => {
     player.pause();
+    display.pause();
   });
 
   speedEl.addEventListener('change', (ev) => {

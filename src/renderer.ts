@@ -4,6 +4,7 @@
  * To Public License, Version 2, as published by Sam Hocevar. See
  * http://www.wtfpl.net/ for more details. */
 
+import { model } from '@coderline/alphatab';
 import { Application, Graphics, ICanvas, Text, TextStyle } from 'pixi.js';
 
 const SCREEN_HEIGHT = 300;
@@ -79,6 +80,19 @@ class Note {
   }
 }
 
+export class RafDisplay {
+  constructor(app: Application) {
+    this.__app = app;
+  }
+
+  __app;
+  load(score: model.Score, trackIdx: number) {
+    console.log({ score });
+  }
+  play() {}
+  pause() {}
+}
+
 export const setupRenderer = ({ contentEl }: { contentEl: HTMLElement }) => {
   const app = new Application({
     width: SCREEN_WIDTH,
@@ -126,4 +140,6 @@ export const setupRenderer = ({ contentEl }: { contentEl: HTMLElement }) => {
 
   // @ts-ignore
   contentEl.appendChild(app.view);
+
+  return new RafDisplay(app);
 };

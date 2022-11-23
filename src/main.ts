@@ -13,6 +13,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <div id="content"></div>
 <div><button id="stop">Stop</button> <button id="start">Start</button> <label for="speed">Speed</speed> <input id="speed" type="number" value="100" max="120" min="10" /> %</div>
 <div>Tempo: <span id="tempo" /> ♩</div>
+<div>Track: <select id="track"><option value="0" disabled="">Loading …</option></select></div>
 `;
 
 setup({
@@ -22,4 +23,5 @@ setup({
   speedEl: document.querySelector('#speed'),
   tempoEl: document.querySelector('#tempo'),
   contentEl: document.querySelector('#content'),
+  trackEl: document.querySelector('#track'),
 });
