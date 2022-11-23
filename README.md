@@ -31,18 +31,28 @@ It's open see below if you want to contribute.
 
 _add `<--- your name` if you want to contribute_
 
-- [ ] Choose a Design system
-- [ ] Choose a frontend technology (webcomponent|preact|…)
-- [ ] UI mockups
+#### Poc
+
 - [ ] load user's `.gp` file (easy)
 - [x] basic player: start/stop controls
 - [x] select speed
 - [ ] design song data for the display **<--- dey**
 - [x] basic tablature display
+
+#### Alpha
+
+- [ ] Choose a frontend technology (webcomponent|preact|…)
+- [ ] Choose a Design system
+- [ ] UI mockups
 - [ ] tabs database
-- [ ] check legals for the tabs database (can it be redistributed freely)
+- [ ] check legals for the tabs database (can it be redistributed freely?)
 - [ ] simplify app installation: http proxy for sonivox.sf2 file (vite config,
       easy?)
+- [ ] In track select option, display «program» (the music instrument) based on
+      [General midi](https://fr.wikipedia.org/wiki/General_MIDI) (easy)
+- [ ] Reset song when changing track
+- [ ] I18n
+- [ ] Better controls
 - …
 
 ### Dev
