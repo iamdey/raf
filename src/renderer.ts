@@ -5,7 +5,14 @@
  * http://www.wtfpl.net/ for more details. */
 
 import { model } from '@coderline/alphatab';
-import { Application, Graphics, ICanvas, Text, TextStyle } from 'pixi.js';
+import {
+  Application,
+  Container,
+  Graphics,
+  ICanvas,
+  Text,
+  TextStyle,
+} from 'pixi.js';
 
 const SCREEN_HEIGHT = 300;
 const SCREEN_WIDTH = 600;
@@ -14,35 +21,33 @@ const MARGIN_Y = (SCREEN_HEIGHT - GUITAR_HEIGHT) / 2;
 const STRING_HEIGHT = 3;
 const NOTE_HEIGHT = 13;
 const NOTE_RADIUS = 4;
+const NOTE_SIXTEENTH_WIDTH = NOTE_HEIGHT;
+const NOTE_WHOLE_WIDTH = NOTE_SIXTEENTH_WIDTH * 16;
+const NOTE_SIXTEENTH_DISTANCE = NOTE_SIXTEENTH_WIDTH + 4;
 
 const posYGstrings = {
-  ETreble: MARGIN_Y + GUITAR_HEIGHT / 6,
-  B: MARGIN_Y + (GUITAR_HEIGHT / 6) * 2,
-  G: MARGIN_Y + (GUITAR_HEIGHT / 6) * 3,
-  D: MARGIN_Y + (GUITAR_HEIGHT / 6) * 4,
-  A: MARGIN_Y + (GUITAR_HEIGHT / 6) * 5,
-  EBass: MARGIN_Y + GUITAR_HEIGHT,
+  6: MARGIN_Y + GUITAR_HEIGHT / 6,
+  5: MARGIN_Y + (GUITAR_HEIGHT / 6) * 2,
+  4: MARGIN_Y + (GUITAR_HEIGHT / 6) * 3,
+  3: MARGIN_Y + (GUITAR_HEIGHT / 6) * 4,
+  2: MARGIN_Y + (GUITAR_HEIGHT / 6) * 5,
+  1: MARGIN_Y + GUITAR_HEIGHT,
 };
 
 type IGString = keyof typeof posYGstrings;
 
+const computeNextX = (currentX: number, note: void | Note) =>
+  currentX + NOTE_SIXTEENTH_DISTANCE * 1;
+
 class Note {
-  // XXX: should compute itself string & fret if no indications
-  constructor({
-    gString,
-    x,
-    fretNumber,
-  }: {
-    gString: IGString;
-    x: number;
-    fretNumber: number;
-  }) {
+  constructor(note: model.Note, x: number) {
+    this._note = note;
     this.background = new Graphics();
     this.background.beginFill(0x33c7de);
     this.background.drawRoundedRect(
       0,
       0,
-      NOTE_HEIGHT * 2,
+      NOTE_SIXTEENTH_WIDTH,
       NOTE_HEIGHT,
       NOTE_RADIUS
     );
@@ -53,30 +58,24 @@ class Note {
     const style = new TextStyle({
       fontSize: 10,
     });
-    this.fret = new Text(fretNumber.toString(), style);
+    this.fret = new Text(note.fret.toString(), style);
     this.fret.x = x + 3;
 
-    this.gString = gString;
+    this._setY(note.string as IGString);
   }
 
   background: Graphics;
   fret: Text;
-  _gString: IGString = 'EBass';
+  _note: model.Note;
 
-  set gString(gString: IGString) {
-    this._gString = gString;
+  _setY(gString: IGString) {
     this.background.y = posYGstrings[gString] - NOTE_HEIGHT / 2;
     this.fret.y = posYGstrings[gString] - NOTE_HEIGHT / 2;
   }
 
-  get gString() {
-    // XXX: compute based on y pos.
-    return this._gString;
-  }
-
-  render(app: Application<ICanvas>) {
-    app.stage.addChild(this.background);
-    app.stage.addChild(this.fret);
+  render(container: Container) {
+    container.addChild(this.background);
+    container.addChild(this.fret);
   }
 }
 
@@ -86,11 +85,52 @@ export class RafDisplay {
   }
 
   __app;
+  uiTrack: undefined | Container;
   load(score: model.Score, trackIdx: number) {
-    console.log({ score });
+    const track = score.tracks[trackIdx];
+    console.log({
+      score,
+      notes: track.staves[0].bars[0].voices[0].beats[0].notes,
+    });
+
+    if (this.uiTrack) {
+      this.__app.stage.removeChild(this.uiTrack);
+    }
+
+    this.uiTrack = new Container();
+    this.uiTrack.x = SCREEN_WIDTH;
+    this.__app.stage.addChild(this.uiTrack);
+
+    let x = 0;
+    track.staves.forEach((stave) => {
+      stave.bars.forEach((bar) => {
+        // only one voice on guitar is supported for now
+        bar.voices[0].beats.forEach((beat) => {
+          let rafNote;
+          beat.notes.forEach((note) => {
+            if (!this.uiTrack) {
+              return;
+            }
+            rafNote = new Note(note, x);
+            rafNote.render(this.uiTrack);
+          });
+          x = computeNextX(x, rafNote);
+        });
+        x += 25;
+      });
+    });
   }
-  play() {}
-  pause() {}
+  play() {
+    this.__app.ticker.add((delta) => {
+      if (!this.uiTrack) {
+        return;
+      }
+      this.uiTrack.x -= 1 * delta;
+    });
+  }
+  pause() {
+    this.__app.ticker.stop();
+  }
 }
 
 export const setupRenderer = ({ contentEl }: { contentEl: HTMLElement }) => {
@@ -120,23 +160,6 @@ export const setupRenderer = ({ contentEl }: { contentEl: HTMLElement }) => {
   center.endFill();
 
   app.stage.addChild(center);
-
-  // --- NOTES
-  const note1 = new Note({ gString: 'A', x: SCREEN_WIDTH - 50, fretNumber: 3 });
-  note1.render(app);
-  const note2 = new Note({
-    gString: 'A',
-    x: SCREEN_WIDTH - 100,
-    fretNumber: 5,
-  });
-  note2.render(app);
-  const note3 = new Note({
-    gString: 'EBass',
-    x: SCREEN_WIDTH - 150,
-    fretNumber: 0,
-  });
-  note3.render(app);
-  // ---
 
   // @ts-ignore
   contentEl.appendChild(app.view);
