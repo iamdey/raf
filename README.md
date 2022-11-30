@@ -33,11 +33,12 @@ _add `<--- your name` if you want to contribute_
 
 #### Poc
 
-- [ ] load user's `.gp` file (easy)
+- [ ] load user's `.gp` file (easy) **<--- dey**
 - [x] basic player: start/stop controls
 - [x] select speed
-- [ ] design song data for the display **<--- dey**
+- [x] design song data for the display
 - [x] basic tablature display
+- [ ] apply speed to display
 
 #### Alpha
 
@@ -52,7 +53,7 @@ _add `<--- your name` if you want to contribute_
       [General midi](https://fr.wikipedia.org/wiki/General_MIDI) (easy)
 - [ ] Reset song when changing track
 - [ ] I18n
-- [ ] Better controls
+- [ ] improve rendering (smoothness)
 - …
 
 ### Dev

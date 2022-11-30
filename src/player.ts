@@ -30,7 +30,7 @@ export const setupPlayer = (
 
   startEl.addEventListener('click', () => {
     player.play();
-    display.play();
+    display.play(player);
   });
   stopEl.addEventListener('click', () => {
     player.pause();
