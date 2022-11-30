@@ -46,6 +46,4 @@ export const setupPlayer = (
     // @ts-ignore
     player.playbackSpeed = Number(ev.currentTarget?.value) / 100;
   });
-
-  speedEl;
 };
