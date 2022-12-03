@@ -4,7 +4,7 @@
  * To Public License, Version 2, as published by Sam Hocevar. See
  * http://www.wtfpl.net/ for more details. */
 
-import { midi, model, synth } from '@coderline/alphatab';
+import { model, synth } from '@coderline/alphatab';
 import { Application, Container, Graphics, Text, TextStyle } from 'pixi.js';
 
 const SCREEN_HEIGHT = 300;
@@ -325,11 +325,13 @@ export const setupRenderer = ({ contentEl }: { contentEl: HTMLElement }) => {
   const center = new Graphics();
   center.beginFill(0xff0000);
   // move center line a bit before for better eye sensation
-  center.drawRect(SCREEN_WIDTH / 2 - 30, 0, 1, SCREEN_HEIGHT);
+  center.drawRect(SCREEN_WIDTH / 2 - 15, 0, 1, SCREEN_HEIGHT);
   center.endFill();
 
   app.stage.addChild(center);
 
+  // cleanup previous preview
+  contentEl.innerHTML = '';
   // @ts-ignore
   contentEl.appendChild(app.view);
 

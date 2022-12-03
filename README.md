@@ -33,12 +33,13 @@ _add `<--- your name` if you want to contribute_
 
 #### Poc
 
-- [ ] load user's `.gp` file (easy) **<--- dey**
+- [x] load user's `.gp` file (easy)
 - [x] basic player: start/stop controls
 - [x] select speed
 - [x] design song data for the display
 - [x] basic tablature display
-- [ ] apply speed to display
+- [x] apply speed to display
+- [ ] Fix sync display & music
 
 #### Alpha
 

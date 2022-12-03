@@ -8,8 +8,6 @@ import { Settings, importer, model, midi } from '@coderline/alphatab';
 import { setupPlayer } from './player';
 import { RafDisplay, setupRenderer } from './renderer';
 
-const gpFile = '/test.gp3';
-
 const getMidi = (score: model.Score, settings: Settings) => {
   const midiFile = new midi.MidiFile();
 
@@ -48,7 +46,21 @@ const setUpTrack = (
   });
 };
 
+export const loadScoreFromPath = async (path: string, settings: Settings) => {
+  return new Promise<model.Score>((resolve, reject) => {
+    importer.ScoreLoader.loadScoreAsync(path, resolve, reject, settings);
+  });
+};
+
+export const loadScoreFromFile = async (file: File, settings: Settings) => {
+  const byteArray: Uint8Array = new Uint8Array(await file.arrayBuffer());
+
+  return importer.ScoreLoader.loadScoreFromBytes(byteArray, settings);
+};
+
 const setup = async ({
+  score,
+  settings,
   scoreEl,
   startEl,
   stopEl,
@@ -57,31 +69,17 @@ const setup = async ({
   contentEl,
   trackEl,
 }: {
-  scoreEl: null | HTMLElement;
-  stopEl: null | HTMLElement;
-  startEl: null | HTMLElement;
-  speedEl: null | HTMLInputElement;
-  tempoEl: null | HTMLElement;
-  contentEl: null | HTMLElement;
-  trackEl: null | HTMLSelectElement;
+  score: model.Score;
+  settings: Settings;
+  scoreEl: HTMLElement;
+  stopEl: HTMLElement;
+  startEl: HTMLElement;
+  speedEl: HTMLInputElement;
+  tempoEl: HTMLElement;
+  contentEl: HTMLElement;
+  trackEl: HTMLSelectElement;
 }) => {
-  if (
-    !scoreEl ||
-    !stopEl ||
-    !startEl ||
-    !speedEl ||
-    !tempoEl ||
-    !contentEl ||
-    !trackEl
-  ) {
-    return;
-  }
   try {
-    const settings = new Settings();
-    const score = await new Promise<model.Score>((resolve, reject) => {
-      importer.ScoreLoader.loadScoreAsync(gpFile, resolve, reject, settings);
-    });
-
     scoreEl.innerHTML = `${score.artist} - ${score.title}`;
     tempoEl.innerHTML = score.tempo.toString();
 
