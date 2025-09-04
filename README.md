@@ -1,5 +1,9 @@
 # RAF
 
+Demo: https://raf.bruit-contraire.net
+
+![Screencast RAF](https://raf.bruit-contraire.net/screen_cast_raf.mp4)
+
 An open-source software to learn music instruments by playing songs. For now,
 the priority is to support guitar, but it is meant to support multiple
 instruments as bass, piano, singing and even drum.
@@ -18,10 +22,12 @@ progressively and choose the speed of the song.
 
 ## Technically
 
-For now it's web-based using [alphaTab](https://www.alphatab.net) to load `.gp`
-files and play song with midi instruments. To display tablatures, it could use
-webgl and canvas or just html+css. This is a prove of concept, later it could be
-anything, python, java, rust, wasm….
+For now it's web-based using [alphaTab](https://www.alphatab.net) (it's
+amazing!) to load `.gp` files and play song with midi instruments. To draw and
+animate the tablatures, it uses [PixiJS](https://pixijs.com/).
+
+This is a prove of concept, later it could be anything, python, java, rust,
+wasm….
 
 ## Contributions
 
@@ -52,7 +58,6 @@ _add `<--- your name` if you want to contribute_
       easy?)
 - [ ] In track select option, display «program» (the music instrument) based on
       [General midi](https://fr.wikipedia.org/wiki/General_MIDI) (easy)
-- [ ] Reset song when changing track
 - [ ] I18n
 - [ ] improve rendering (smoothness)
 - …
@@ -67,7 +72,8 @@ Pre requisite:
 #### Clone the repo
 
 ```bash
-git clone  TODO
+git clone https://github.com/iamdey/raf.git
+cd raf
 ```
 
 #### Install deps
@@ -105,4 +111,5 @@ yarn dev
 - Load a `.gp` file
 - retrieve artist and song
 - start/pause and speed control
-- guitar display (+ fake notes)
+- draw guitar tablature
+- animate tab
